@@ -46,11 +46,11 @@ function clearImageList() {
 function uploadCard(card, filename) {
     var img = new Image();
     img.crossOrigin = 'anonymous';
-  img.onload = function () {
-    imageList.push(this);
-    sortImageList();
-    drawSheet();
-  };
+    img.onload = function () {
+        imageList.push(this);
+        sortImageList();
+        drawSheet();
+    };
     img.filename = filename.replace('filename=', '');
     img.src = card;
 }
