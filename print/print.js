@@ -28,10 +28,29 @@ cuttingGuides.src = 'cuttingGuides.svg';
 var blackPixel = new Image();
 blackPixel.src = 'black.png';
 
+function sortImageList() {
+  imageList.sort((a, b) => {
+    if (a.filename < b.filename) {
+      return 1;
+    }
+    if (a.filename > b.filename) {
+      return -1;
+    }
+    return 0;
+  });
+}
+function clearImageList() {
+  imageList = [];
+}
+
 function uploadCard(card, filename) {
     var img = new Image();
     img.crossOrigin = 'anonymous';
-    img.onload = function() {imageList.push(this); drawSheet();}
+  img.onload = function () {
+    imageList.push(this);
+    sortImageList();
+    drawSheet();
+  };
     img.filename = filename.replace('filename=', '');
     img.src = card;
 }
@@ -69,6 +88,7 @@ function drawSheetReal() {
             context.fillRect(0, y + cardHeight, page[0] * ppi, aidWidth);
         }
     }
+    sortImageList();
     //Iterate through every viable space and draw the card there
     count = 0;
     for (var i = imageList.length - 1; i >= 0 && count < cardsX * cardsY; i--) {
@@ -146,6 +166,7 @@ function downloadPDF() {
             doc.addImage(blackPixel, "PNG", 0, (y + cardHeight) / ppi, page[0], aidWidth / ppi);
         }
     }
+    sortImageList();
     //Iterate through every viable space and draw the card there
     count = 0;
     for (var i = imageList.length - 1; i >= 0 && count < cardsX * cardsY; i--) {
